@@ -1,0 +1,45 @@
+<form action="{% url 'uprofile' %}"
+      method="POST"
+      enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <input type="text"
+               name="name"
+               class="form-control"
+               placeholder="Enter Name"
+               value="{{ user.name }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <input type="email"
+               name="email"
+               class="form-control"
+               placeholder="Enter Email"
+               value="{{ user.email }}"
+               readonly>
+    </div>
+
+    <div class="mb-3">
+        <input type="tel"
+               name="mobile"
+               class="form-control"
+               placeholder="Enter Mobile Number"
+               value="{{ user.mobile }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <input type="file"
+               name="profile"
+               class="form-control"
+               accept="image/*">
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">
+        Update Profile Picture
+    </button>
+
+</form>

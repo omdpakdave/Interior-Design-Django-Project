@@ -1,0 +1,101 @@
+{% extends 'header.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2 align="center">My Cart</h2>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Image</th>
+<th>Name</th>
+<th>Price</th>
+<th>Qty</th>
+<th>Total</th>
+<th>Action</th>
+
+</tr>
+
+{% for i in cart %}
+
+<tr>
+
+<td>
+<img src="{{ i.product.dimage.url }}"
+width="120">
+</td>
+
+<td>{{ i.product.dname }}</td>
+
+<td>₹ {{ i.product.dprice }}</td>
+
+<td>
+
+<a href="{% url 'decrease' i.pk %}"
+class="btn btn-warning">-</a>
+
+{{ i.qty }}
+
+<a href="{% url 'increase' i.pk %}"
+class="btn btn-success">+</a>
+
+</td>
+
+<td>
+
+₹ {{ i.product.dprice|floatformat:0 }}
+
+× {{ i.qty }}
+
+</td>
+
+<td>
+
+<a href="{% url 'deletecart' i.pk %}"
+class="btn btn-danger">
+
+Remove
+
+</a>
+
+
+
+</td>
+</tr>
+
+{% endfor %}
+
+<tr>
+
+<td colspan="4">
+
+<b>Grand Total</b>
+
+</td>
+
+<td>
+
+<b>₹ {{ total }}</b>
+
+</td>
+
+<td>
+
+            <a href="{% url 'payment' %}" class="btn btn-success">
+            Pay
+        </a>
+
+</td>
+
+
+
+</tr>
+
+</table>
+
+</div>
+
+{% endblock %}

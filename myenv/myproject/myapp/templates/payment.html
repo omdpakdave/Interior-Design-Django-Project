@@ -1,0 +1,42 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<button id="pay-btn">Pay Now</button>
+
+<script>
+
+var options = {
+    "key": "{{ key }}",
+    "amount": "{{ amount }}",
+    "currency": "INR",
+    "name": "Home Decoration",
+    "description": "Decoration Order",
+    "order_id": "{{ payment.id }}",
+
+    "handler": function (response){
+
+        alert("Payment Success");
+
+        console.log(response.razorpay_payment_id);
+
+        console.log(response.razorpay_order_id);
+
+        console.log(response.razorpay_signature);
+
+    },
+
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+
+var rzp = new Razorpay(options);
+
+document.getElementById('pay-btn').onclick = function(e){
+
+    rzp.open();
+
+    e.preventDefault();
+
+}
+
+</script>

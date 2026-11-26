@@ -1,0 +1,46 @@
+{% extends 'header.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2>My Orders</h2>
+
+<table class="table table-bordered">
+
+<tr>
+    <th>Image</th>
+    <th>Product</th>
+    <th>Price</th>
+    <th>Qty</th>
+    <th>Total</th>
+    <th>Status</th>
+</tr>
+
+{% for i in orders %}
+
+<tr>
+
+<td>
+<img src="{{ i.product.dimage.url }}" width="100">
+</td>
+
+<td>{{ i.product.dname }}</td>
+
+<td>₹{{ i.product.dprice }}</td>
+
+<td>{{ i.qty }}</td>
+
+<td>₹{{ i.total }}</td>
+
+<td>{{ i.status }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

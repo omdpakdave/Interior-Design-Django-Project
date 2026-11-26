@@ -1,0 +1,51 @@
+{% extends 'header.html' %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4">My Wishlist</h2>
+
+    <div class="row">
+
+    {% for i in wishlist %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow">
+
+                <img src="{{ i.product.dimage.url }}"
+                     class="card-img-top"
+                     style="height:250px;object-fit:cover;">
+
+                <div class="card-body">
+
+                    <h4>{{ i.product.dname }}</h4>
+
+                    <h5>₹ {{ i.product.dprice }}</h5>
+
+                    <p>{{ i.product.desc }}</p>
+
+                    <a href="{% url 'dwish' i.product.pk %}"
+                       class="btn btn-danger">
+                        Remove
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="col-12 text-center">
+            <h3>Your Wishlist is Empty</h3>
+        </div>
+
+    {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

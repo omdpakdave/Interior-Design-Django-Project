@@ -1,0 +1,230 @@
+{% extends 'aheader.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .update-section {
+        min-height: 80vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+    }
+
+    .update-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        padding: 50px 45px;
+        width: 100%;
+        max-width: 560px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .update-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #c8a96e, #a0784a, #c8a96e);
+    }
+
+    .update-card h2 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: #2c2c2c;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .update-card .subtitle {
+        text-align: center;
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 35px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .form-label {
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control {
+        border: 2px solid #e8e8e8;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: #333;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background: #fafafa;
+    }
+
+    .form-control:focus {
+        border-color: #c8a96e;
+        box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+        background: #fff;
+        outline: none;
+    }
+
+    .current-image-wrap {
+        background: #f5f5f5;
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .current-image-wrap img {
+        height: 160px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+    }
+
+    .current-image-label {
+        font-size: 11px;
+        color: #999;
+        margin-top: 6px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .no-image-placeholder {
+        height: 120px;
+        background: #efefef;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #bbb;
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+    }
+
+    .btn-update {
+        background: linear-gradient(135deg, #c8a96e, #a0784a);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 14px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        width: 100%;
+        cursor: pointer;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .btn-update:hover {
+        background: linear-gradient(135deg, #a0784a, #c8a96e);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(160, 120, 74, 0.35);
+    }
+
+    .btn-cancel {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        color: #888;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .btn-cancel:hover {
+        color: #c8a96e;
+    }
+
+    .mb-form {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="update-section">
+    <div class="update-card">
+
+        <h2>✏️ Update Design</h2>
+        <p class="subtitle">Edit the details below and save your changes</p>
+
+        <form action="{% url 'update' pk=product.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Product Name -->
+            <div class="mb-form">
+                <label class="form-label">Product Name</label>
+                <input type="text"
+                       name="dname"
+                       class="form-control"
+                       value="{{ product.dname }}"
+                       placeholder="Enter product name"
+                       required>
+            </div>
+
+            <!-- Price -->
+            <div class="mb-form">
+                <label class="form-label">Price (₹)</label>
+                <input type="number"
+                       name="dprice"
+                       class="form-control"
+                       value="{{ product.dprice }}"
+                       placeholder="Enter price"
+                       required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-form">
+                <label class="form-label">Description</label>
+                <textarea name="desc"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Enter description"
+                          required>{{ product.desc }}</textarea>
+            </div>
+
+            <!-- Current Image Preview -->
+            <div class="mb-form">
+                <label class="form-label">Current Image</label>
+                <div class="current-image-wrap">
+                    {% if product.dprofile %}
+                        <img src="{{ product.dprofile.url }}" alt="{{ product.dname }}">
+                        <p class="current-image-label">Current image — upload a new one below to replace it</p>
+                    {% else %}
+                        <div class="no-image-placeholder">No image uploaded yet</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- New Image Upload -->
+            <div class="mb-form">
+                <label class="form-label">Upload New Image (optional)</label>
+                <input type="file"
+                       name="dprofile"
+                       class="form-control"
+                       accept="image/*">
+            </div>
+
+            <button type="submit" class="btn-update">💾 Save Changes</button>
+
+        </form>
+
+        <a href="{% url 'view' %}" class="btn-cancel">← Cancel and go back to View Design</a>
+
+    </div>
+</div>
+
+{% endblock %}
